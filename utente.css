@@ -1,0 +1,173 @@
+/*-----------------------------------------------------------------
+-------------------------SCHERMATA UTENTE--------------------------
+---prima tutte le classi e poi tutti gli id in ordine di chiamata--
+-------------e infine i cambiamenti per schermi piccoli------------
+-----------------------------------------------------------------*/
+#utente{
+	display:none;
+}
+
+#visualizza{
+	display:none;
+}
+
+.noPadding{
+	padding: 0px;
+}
+
+.testoBlu{
+	color:#17a2b8;
+}
+
+.guide{
+	padding:10px;
+	height: 100px;
+}
+
+.type{
+	width: 35px;
+	padding-top: 40px;
+	padding-right: 0px;
+	padding-left: 15px;
+}
+
+.noMarginBottom{
+	margin-bottom:0;
+}
+
+#player{
+	height:60%;
+	max-width: 100%;
+}
+
+#map{
+	height: 100%;
+}
+
+#divMyPos{
+	position: absolute;
+	bottom: 11px;
+	right: 15px;
+}
+
+#myPos{
+	background-color: #17a2b8;
+	color: #fff;
+	border-radius: 100%;
+	padding:10px 10px;
+	cursor: pointer;
+	font-size: 20px; 
+}
+
+#myPos:active {
+	border: 1px solid #17a2b8;
+	border-radius: 100%;
+	color: #17a2b8;
+	background-color: white;
+}
+
+#elencoPosti{
+	box-shadow: -10px 0px 10px 1px #aaaaaa;
+	overflow-y: auto;
+	height: 100%;
+	background-color: #fafafa;
+	padding-top: 10px;
+}
+
+#cerca{
+	margin-top:10px;
+}
+
+.edit-filter-modal {
+  background-color: #F2F3F5;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.3);
+  transition: transform 0.1s ease, opacity 0.1s ease;
+  transform-origin: 0 0;
+  padding: 16px;
+  position: absolute;
+  right: 15px;
+  top: 105px;
+  left: 15px;
+  z-index: 20;
+}
+
+@media only screen and (max-width: 767px) {
+	#map {
+		height: 65%;
+	}
+	#elencoPosti{
+		height: 35%;
+	}
+	
+	.edit-filter-modal {
+		position:fixed;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		overflow-y: auto;
+	}
+	
+	#player{
+		height:40%;
+	}
+}
+
+.filter-dropdown{
+  transition: color 0.2s ease;
+  cursor: pointer;
+  padding: 0 5px;
+  float: right;
+}
+
+.filter-dropdown-open{
+	background-color: #F2F3F5;
+  border-radius: 0 0 4px 4px;
+  transform-origin: 0 0;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.3);
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+.filter-button{
+  background-color: #17a2b8;
+  color: white;
+  padding: 8px 16px;
+  border:none;
+  border-radius: 3px;
+}
+
+.filter-button:hover{
+  opacity: 0.8;
+}
+
+#calcel-button{
+  background-color: transparent;
+  color: black;
+}
+
+.checkbox-inline{
+	margin-right: 10px;
+}
+
+.checkbox-inline + .checkbox-inline{
+	margin-left:0;
+}
+
+#start_button{
+	vertical-align: bottom;
+}
+
+.glyphicon{
+	padding: 3px;
+}
+
+#dateInfo{
+	max-width: 750px;
+}
+
+#stop{
+	display: none;
+}
+
+/*---create by Matilde Rodolfi---*/

@@ -1,0 +1,370 @@
+<html>
+	<head>
+		<title>Where M I</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/png" href="img/logo-v.png"/>
+		
+		<!--JQUERY 3.4.1-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		
+		<!--BOOSTRAP 3.4.0-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		
+		<!--OPEN LAYERS 4.6.5-->
+		<script src="https://openlayers.org/en/v4.6.5/build/ol.js" type="text/javascript"></script>
+		
+		<!--OPEN LOCATION CODE-->
+		<script src="https://cdn.jsdelivr.net/openlocationcode/latest/openlocationcode.js"></script>
+		
+		<!--API GOOGLE (login+gestione YT)-->
+		<script src="https://apis.google.com/js/api.js"></script>
+		
+		<!--Google Apis Material Icons-->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		
+		<!--gestione schermata login-->
+		<link rel="stylesheet" href="log.css">
+		<script src="log.js"></script>
+		
+		<!--gestione schermata utente-->
+		<link rel="stylesheet" href="utente.css">
+		<script src="utente.js"></script>
+		
+		<!--gestione schermata guida-->
+		<link rel="stylesheet" href="guida.css">
+		<script src="guida.js"></script>
+		
+		<!--gestione registrazione video per upload-->
+		<script src="registrazione.js"></script>
+		
+		<!--gestione upload e ricerca video su YT-->
+		<script src="gestioneYT.js"></script>
+		
+		<!--gestione riconoscimento parole chiave tramite microfono-->
+		<script src="voiceRecognition.js"></script>
+	</head>
+	
+	<body>
+		<!----------------
+		      LOGIN
+		------------------>
+		<div id="sfondo"></div>
+		<div id="login" class="schedaLogin" >
+			<h3 class="headerSchedaLogin">
+				<img src="img/logo-h-light2.png" id="nome">
+			</h3>
+			
+			<div class="row bodySchedaLogin">
+				<!---login utente standard--->
+				<div class="col-sm-5 noPadding">
+					<img class="btnLogin clickable" src="img/icon-utente-google-light.png" onclick="authenticateCliet()"/>
+					<p class="clickable">Se vuoi esplorare nuovi posti con una guida personale e gratuita</p>
+				</div>
+				
+				<div id="oppure" class="col-sm-2 verticalAlign">
+					<p>oppure</p>
+				</div>
+				
+				<!---login utente guida--->
+				<div class="col-sm-5 noPadding">
+					<img class="btnLogin clickable" src="img/icon-guida-google-light.png" onclick="authenticateGuide()"/>
+					<p class="clickable">Se sei un esperto che non vede l'ora di condividere quello che sa</p>
+				</div>
+			</div>
+		</div> 
+		
+		<!----------------
+		 SCHERMATA UTENTE
+		------------------>
+		<div id="utente" class="container-fluid">
+			<div class="row content">
+				<!---mappa interattiva--->
+				<div id="divMap" class="col-sm-8 noPadding">
+					<div id="map" class="noPadding"></div>
+					<div id="divMyPos">
+						<i id="myPos" class="material-icons" onclick="findMyPos()">my_location</i>
+					</div>
+				</div>
+				
+				<div class="col-sm-4 sidenav"  id="elencoPosti">
+					<select id="select_language">
+					</select>
+					<i id="start_button" class="material-icons clickable" onclick="startButton(event)">mic_off</i>
+					
+					<!--filtro risultati per lingua e info varie-->
+					<i class="filter-dropdown material-icons">filter_list</i>
+					<div class="edit-filter-modal hidden">
+						<div class="form-group">
+							<i class='glyphicon glyphicon-pushpin'></i><label>Scopo</label>
+							<div>
+								<label class="checkbox-inline"><input type="checkbox" name="scopo" value="what" checked>What</label>
+								<label class="checkbox-inline"><input type="checkbox" name="scopo" value="why" checked>Why</label>
+								<label class="checkbox-inline"><input type="checkbox" name="scopo" value="how" checked>How</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<i class='glyphicon glyphicon-flag'></i><label>Lingua</label>
+							<div>
+								<label class="checkbox-inline"><input type="checkbox" name="lingua" value="chn" checked>Cinese</label>
+								<label class="checkbox-inline"><input type="checkbox" name="lingua" value="kor" checked>Coreano</label>
+								<label class="checkbox-inline"><input type="checkbox" name="lingua" value="fra" checked>Francese</label>
+								<label class="checkbox-inline"><input type="checkbox" name="lingua" value="jpn" checked>Giapponese</label>
+								<label class="checkbox-inline"><input type="checkbox" name="lingua" value="ita" checked>Italiano</label>
+								<label class="checkbox-inline"><input type="checkbox" name="lingua" value="eng" checked>Inglese</label>
+								<label class="checkbox-inline"><input type="checkbox" name="lingua" value="rus" checked>Russo</label>
+								<label class="checkbox-inline"><input type="checkbox" name="lingua" value="esp" checked>Spagnolo</label>
+								<label class="checkbox-inline"><input type="checkbox" name="lingua" value="ger" checked>Tedesco</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<i class='glyphicon glyphicon-tag'></i><label>Categoria Contenuto</label>
+							<div>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="none" checked>Non definita</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="nat" checked>Natura</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="art" checked>Arte</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="his" checked>Storia</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="flk" checked>Folklore</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="mod" checked>Cultura Moderna</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="rel" checked>Religione</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="cui" checked>Cucina e Drink</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="spo" checked>Sport</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="mus" checked>Musica</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="mov" checked>Film</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="fas" checked>Moda</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="shp" checked>Shopping</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="tec" checked>Tecnologia</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="pop" checked>Cultura Popolare e Gossip</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="prs" checked>Esperienze Personali</label>
+								<label class="checkbox-inline"><input type="checkbox" name="categoria" value="oth" checked>Altro</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<i class='glyphicon glyphicon-education'></i><label>Tipo di pubblico</label>
+							<div>
+								<label class="checkbox-inline"><input type="checkbox" name="contenuto" value="gen" checked>Pubblico Generico</label>
+								<label class="checkbox-inline"><input type="checkbox" name="contenuto" value="pre" checked>Pre-scuola</label>
+								<label class="checkbox-inline"><input type="checkbox" name="contenuto" value="elm" checked>Scuola Primaria</label>
+								<label class="checkbox-inline"><input type="checkbox" name="contenuto" value="mid" checked>Scuola Media</label>
+								<label class="checkbox-inline"><input type="checkbox" name="contenuto" value="sci" checked>Specialisti del Settore</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<i class='glyphicon glyphicon-alert'></i><label>Livello di dettaglio</label>
+							<div>
+								<label class="checkbox-inline"><input type="checkbox" name="dettaglio" value="1" checked>Dettaglio base</label>
+								<label class="checkbox-inline"><input type="checkbox" name="dettaglio" value="2" checked>Info sul luogo</label>
+								<label class="checkbox-inline"><input type="checkbox" name="dettaglio" value="3" checked>Info locali</label>
+								<label class="checkbox-inline"><input type="checkbox" name="dettaglio" value="4" checked>Esperienze personali</label>
+							</div>
+					</div>
+					
+						<button class="filter-button" id="apply-button">Applica</button>
+						<button class="filter-button" id="calcel-button">Annulla</button>
+					</div>
+					
+					<!--lista guide suggerite-->
+					<ul id="guides" class="nav">
+						<!---qui verranno caricate le 20 guide suggerite--->
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<!----------------------
+		SCHERMATA VISUALIZZA GUIDA
+		----------------------->
+		<div class="scheda" id="visualizza">
+			<h3 class="headerScheda">
+				<strong>VISUALIZZA GUIDA</strong>
+				<span class="close" onclick="closeVisualization()">&times;</span>
+			</h3>
+			<div class="bodyScheda center">
+				<div id="player"></div>
+				<div id="info"></div>
+				<div>
+					<i class="material-icons btnBlu clickable" onclick="prev()">skip_previous</i>
+					<i id="stop" class="material-icons btnBlu clickable" onclick="stopVideo()">pause</i>
+					<i id="play" class="material-icons btnBlu clickable" onclick="playVideo()">play_arrow</i>
+					<i class="material-icons btnBlu clickable" onclick="next()">skip_next</i>
+				</div>
+			</div>
+		</div>
+		
+		<!----------------
+		  SCHERMATA GUIDA
+		------------------>
+		<div class="scheda" id="storico">
+			<h3 class="headerScheda">
+				<strong>STORICO GUIDE</strong>
+			</h3>
+			
+			<!---lista video caricati--->
+			<div class="container bodyScheda">				
+				<div id="myGuides" class="row">
+					<!---qui verranno caricati gli ultimo 50 video creati da utente--->
+				</div>
+			</div>
+			
+			<!---pulsante creazione nuovo video--->
+			<div id="divNew">
+				<span id="new" class="glyphicon glyphicon-plus" onclick="newGuide()"></span>
+			</div>
+		</div>
+		
+		<!----------------------
+		SCHERMATA NUOVA/MODIFICA GUIDA
+		----------------------->
+		<div class="scheda" id="newGuida">
+			<h3 class="headerScheda">
+				<strong id="nuovaModificaGuida">NUOVA GUIDA</strong>
+				<span class="close" onclick="closeForm()">&times;</span>
+			</h3>
+			<div class="container bodyScheda">
+				<form id="newGuidaForm">
+					<div id="nuovoVideo" class="form-group">
+						<label for="fileGuida">File guida audio/video</label>
+						<input type="file" class="form-control-file" id="fileGuida" accept="video/*" capture>
+						<i class="material-icons clickable" onclick="newGuideVideo()">videocam</i>
+						<div id="fileSalvato"><span class="glyphicon glyphicon-check"></span>File registrato correttamente</div>
+					</div>
+					
+					<div id="videoGuide">
+					</div>
+					
+					<div class="form-group">
+						<label for="titolo">Titolo</label>
+						<input type="text" class="form-control" id="titolo" placeholder="Titolo">
+					</div>
+					
+					<div class="form-group">
+						<label for="divGeoloc">Posizione</label>
+						<div id="divGeolo">
+							<div id="Geolo" class="noPadding"></div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="scopo">Scopo</label>
+						<select class="form-control" id="scopo">
+							<option value="what"> What - qual è la sua storia?</option>
+							<option value="why"> Why - perchè è interessante?</option>
+							<option value="how"> How - come accedere?</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label for="lingua">Lingua</label>
+						<select class="form-control" id="lingua">
+							<option value="chn"> Cinese</option>
+							<option value="kor"> Coreano</option>
+							<option value="fra"> Francese</option>
+							<option value="jpn"> Giapponese</option>
+							<option value="ita" selected> Italiano</option>
+							<option value="eng"> Inglese</option>
+							<option value="rus"> Russo</option>
+							<option value="esp"> Spagnolo</option>
+							<option value="ger"> Tedesco</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label for="categoria">Categoria Contenuto</label> <br/>
+						<select class="form-control" id="categoria">
+							<option value="none" select> Nessuna</option>
+							<option value="nat"> Natura</option>
+							<option value="art"> Arte </option>
+							<option value="his"> Storia</option>
+							<option value="flk"> Folklore</option>
+							<option value="mod"> Cultura Moderna</option>
+							<option value="rel"> Religione</option>
+							<option value="cui"> Cucina e Drink</option>
+							<option value="spo"> Sport</option>
+							<option value="mus"> Musica</option>
+							<option value="mov"> Film</option>
+							<option value="fas"> Moda</option>
+							<option value="shp"> Shopping</option>
+							<option value="tec"> Tecnologia</option>
+							<option value="pop"> Cultura Popolare e Gossip</option>
+							<option value="prs"> Esperienze Personali</option>
+							<option value="oth"> Altro</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label for="contenuto">Tipo di pubblico</label>
+						<select class="form-control" id="contenuto">
+							<option value="gen" selected> Pubblico Generico</option>
+							<option value="pre"> Pre-scuola</option>
+							<option value="elm"> Scuola Primaria</option>
+							<option value="mid"> Scuola Media </option>
+							<option value="sci"> Specialisti del Settore</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label for="dettaglio">Livello di dettaglio</label>
+						<select class="form-control" id="dettaglio">
+							<option value="1" selected> Dettaglio base</option>
+							<option value="2"> Informazioni sul luogo</option>
+							<option value="3"> Informazioni locali (es. leggende)</option>
+							<option value="4"> Esperienze personali</option>
+						</select>
+					</div>
+					
+					<input type="checkbox" id="private"> Video Privato
+					
+					<div id="salva" class="btnBlu col-sm-12">SALVA</div>
+				</form>	
+			</div>
+		</div>
+		
+		
+		<!----------------------
+		SCHERMATA REGISTRA GUIDA
+		----------------------->
+		<div class="scheda" id="registrazione">
+			<h3 class="headerScheda">
+				<strong>REGISTRA GUIDA</strong>
+				<span class="close" onclick="closeRegistration()">&times;</span>
+			</h3>
+			<div class="container bodyScheda center">
+				<div class="divRecorder">
+					<video class="recorder" id="gum" playsinline autoplay muted></video>
+					<video class="recorder" id="recorded" playsinline loop></video>
+					
+					<select id="videoSource" onchange="{stream.getTracks().forEach(function(track) {track.stop();});openCamera()}"></select>
+				</div>
+				
+				<div id="recording">
+					<button id="record" class="btnBlu col-sm-12" onclick="record()" >Start Recording</button>
+					<span style="font-size:20px;" id="countdown"></span>
+				</div>
+				<div id="review">
+					<button id="newVideo" class="col-sm-4 btnBlu" onclick="newGuideVideo()">New Video</button>
+					<button id="download" class="col-sm-4 btnBlu" onclick="download()">Download</button>
+					<button id="save" class="col-sm-4 btnBlu clickable" onclick="save()">Save</button>
+				</div>
+			</div>
+		</div>
+		
+		<img id="loadingDiv" src="img/loading.gif" alt="loading"/>
+		
+		<script>
+			$loading = $('#loadingDiv').hide();
+			$(document)
+				.ajaxStart(function () {
+					$loading.show();
+				})
+				.ajaxStop(function () {
+					$loading.hide();
+				});
+		</script>
+	</body>
+</html>
+<!---create by Matilde Rodolfi--->
